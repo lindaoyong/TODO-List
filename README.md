@@ -56,7 +56,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 # JWT配置
 jwt:
-  secret: my-secret-key-12345678901234567890123456789012 # 生产环境替换为复杂密钥
+  secret:  #随机生成一个复杂密钥填入即可
   expiration: 3600000 # Token过期时间（1小时，单位：毫秒）
 ```
 
@@ -74,7 +74,7 @@ mvn spring-boot:run
 
 ## 四、核心功能模块
 ### 1. 用户模块（User）
-| 接口                | 方法 | 功能           | 权限要求 |
+| 核心接口                | 方法 | 功能           | 权限要求 |
 |---------------------|------|----------------|----------|
 | `/api/users/register` | POST | 用户注册       | 匿名访问 |
 | `/api/users/login`    | POST | 用户登录（获取JWT Token） | 匿名访问 |
@@ -85,7 +85,7 @@ mvn spring-boot:run
 - 登录返回 JWT Token，用于后续接口认证。
 
 ### 2. 标签模块（Tag）
-| 接口                     | 方法 | 功能               | 权限要求 |
+| 核心接口                     | 方法 | 功能               | 权限要求 |
 |--------------------------|------|--------------------|----------|
 | `/api/tags/create`       | POST | 创建用户私有标签   | 已登录   |
 | `/api/tags/user/{userId}`| GET  | 查询用户所有标签   | 已登录   |
@@ -95,11 +95,11 @@ mvn spring-boot:run
 - 同一用户标签名唯一校验。
 
 ### 3. TODO 模块（Todo）
-| 接口                          | 方法 | 功能               | 权限要求 |
+| 核心接口                          | 方法 | 功能               | 权限要求 |
 |-------------------------------|------|--------------------|----------|
-| `/api/todos/createTodo`       | POST | 创建TODO事项       | 已登录   |
-| `/api/todos/update/{todoId}`  | PUT  | 更新TODO（名称/状态/标签等） | 已登录（仅创建者） |
-| `/api/todos/user/{userId}`    | GET  | 查询用户所有TODO   | 已登录   |
+| `/api/todos`                  | POST | 创建TODO事项       | 已登录   |
+| `/api/todos/{todoId}`         | GET  | 根据待办id查询用户某个待办事项   | 已登录（仅创建者） |
+| `/api/todos`                  | GET  | 查询用户所有TODO   | 已登录   |
 
 **核心特性**：
 - 支持 TODO 状态（未开始/进行中/已完成）、优先级（低/中/高）管理；
